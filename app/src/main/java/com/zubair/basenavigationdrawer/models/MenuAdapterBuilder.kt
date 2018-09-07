@@ -18,6 +18,15 @@ class MenuAdapterBuilder {
     }
 
     fun create(): MenuAdapterDto {
-        return MenuAdapterDto(layout, columnCount)
+        val menuAdapterDto = MenuAdapterDto(layout, columnCount)
+
+        if (menuAdapterDto.layout == 0) {
+            throw IllegalStateException("Item Layout can not be null!")
+        }
+
+        if (menuAdapterDto.columnCount == 0) {
+            throw IllegalStateException("Column count can not be 0!")
+        }
+        return menuAdapterDto
     }
 }
