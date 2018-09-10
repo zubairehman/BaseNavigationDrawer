@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.zubair.basenavigationdrawer.BuildConfig
 
 import com.zubair.basenavigationdrawer.R
 import com.zubair.basenavigationdrawer.models.MenuAdapterBuilder
@@ -43,12 +44,15 @@ abstract class AbstractDrawerFragment : BaseFragment(), IOnMenuItemClicked {
         //setting adapter
         setAdapter(getLayout())
 
-        //setting callback listener
+        //setting menu listener
         menuListener = this as IOnMenuCreated
         menuListener!!.onMenuCreated()
 
         //setting click listener
         clickListener = this as IOnClick
+
+        //setting version number
+        txt_version!!.text = "v${BuildConfig.VERSION_NAME}"
 
         //listeners
         btn_back.setOnClickListener {
