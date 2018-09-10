@@ -12,6 +12,7 @@ import com.zubair.basenavigationdrawer.models.MenuAdapterDto
 import com.zubair.basenavigationdrawer.models.MenuDto
 import com.zubair.basenavigationdrawer.modules.baseclasses.fragment.BaseFragment
 import com.zubair.basenavigationdrawer.modules.drawer.adapters.MenuAdapter
+import com.zubair.basenavigationdrawer.modules.drawer.interfaces.IOnClick
 import com.zubair.basenavigationdrawer.modules.drawer.interfaces.IOnMenuCreated
 import com.zubair.basenavigationdrawer.modules.drawer.interfaces.IOnMenuItemClicked
 import kotlinx.android.synthetic.main.fragment_drawer_new.*
@@ -21,7 +22,8 @@ import java.util.ArrayList
 abstract class AbstractDrawerFragment : BaseFragment(), IOnMenuItemClicked {
 
     private var adapter: MenuAdapter? = null
-    private var listener: IOnMenuCreated? = null
+    private var menuListener: IOnMenuCreated? = null
+    private var clickListener: IOnClick? = null
 
     //abstract method to accept item layout from client
     open fun getLayout(): MenuAdapterDto {
@@ -42,8 +44,20 @@ abstract class AbstractDrawerFragment : BaseFragment(), IOnMenuItemClicked {
         setAdapter(getLayout())
 
         //setting callback listener
-        listener = this as IOnMenuCreated
-        listener!!.onMenuCreated()
+        menuListener = this as IOnMenuCreated
+        menuListener!!.onMenuCreated()
+
+        //setting click listener
+        clickListener = this as IOnClick
+
+        //listeners
+        btn_back.setOnClickListener {
+            clickListener!!.onClick(it)
+        }
+
+        btn_logout.setOnClickListener {
+            clickListener!!.onClick(it)
+        }
     }
 
     override fun getExtras(extras: ArrayList<Any>) {
